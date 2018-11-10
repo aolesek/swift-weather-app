@@ -15,9 +15,16 @@ class MasterViewController: UITableViewController {
     var townDescriptors = [1047372, 28743736, 2471217, 523920, 44418, 638242]
     
     var forecasts = [
-        Forecast(title: "Denpasar", consolidatedWeather: [Weather(conditionsType: "h", conditionsAbbr: "h", minTemp: 10.3, theTemp: 11, maxTemp: 12.3, windSpeed: 12.2, windDirection: "NNE", airPressure: 1013.7, humidity: 69, date: "10-12-2018")]),
-        Forecast(title: "London", consolidatedWeather: [Weather(conditionsType: "sn", conditionsAbbr: "sn", minTemp: 10.3, theTemp: 11, maxTemp: 12.3, windSpeed: 12.2, windDirection: "NNE", airPressure: 1013.7, humidity: 69, date: "10-12-2018")]),
-        Forecast(title: "Los Angeles", consolidatedWeather: [Weather(conditionsType: "c", conditionsAbbr: "c", minTemp: 10.3, theTemp: 11, maxTemp: 12.3, windSpeed: 12.2, windDirection: "NNE", airPressure: 1013.7, humidity: 69, date: "10-12-2018")])
+        Forecast(title: "Denpasar", consolidatedWeather:
+            [
+                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "10-12-2018"),
+                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "11-12-2018"),
+                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "12-12-2018"),
+                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "13-12-2018"),
+                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "14-12-2018")
+            ]),
+        Forecast(title: "London", consolidatedWeather: [Weather(conditionsType: "Rain", conditionsAbbr: "sn", minTemp: 20.3, theTemp: 20, maxTemp: 20.3, windSpeed: 20.2, windDirection: "NNE", airPressure: 2020.7, humidity: 20, date: "11-12-2018")]),
+        Forecast(title: "Los Angeles", consolidatedWeather: [Weather(conditionsType: "Sleet", conditionsAbbr: "c", minTemp: 35.3, theTemp: 35, maxTemp: 35.3, windSpeed: 35.2, windDirection: "NNE", airPressure: 3535.7, humidity: 35, date: "11-12-2018")])
     ]
 
 

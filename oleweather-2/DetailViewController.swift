@@ -8,7 +8,9 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var day: Int = 0;
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
 
@@ -17,17 +19,49 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var dayLabel: UILabel!
+    @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var prevButton: UIButton!
     
-    var day: Int = 0;
+    //MARK: Actions
+    @IBAction func onPrevious(_ sender: Any) {
+        if self.day > 0 {
+            self.day -= 1
+            self.nextButton.isEnabled = true;
+        }
+        if self.day <= 0 {
+            self.day = 0;
+            self.prevButton.isEnabled = false;
+        }
+        updateWeatherView()
+    }
     
-    var tableData = ["jeden", "dwa"]
+    @IBAction func onNext(_ sender: Any) {
+        let daysNumber = self.weatherForecast!.consolidatedWeather.count - 1;
+        if self.day < daysNumber  {
+            self.day += 1
+            self.prevButton.isEnabled = true;
+        }
+        if self.day >= daysNumber {
+            self.day = daysNumber;
+            self.nextButton.isEnabled = false;
+        }
+        updateWeatherView()
+    }
+    
+
     
     func configureView() {
         // Update the user interface for the detail item.
-        updateWeatherView(weatherForecast: weatherForecast)      
+        updateWeatherView()
+        
+        if self.weatherForecast?.consolidatedWeather.count > 1 {
+            self.nextButton.isEnabled = true;
+
+        }
     }
     
-    func updateWeatherView(weatherForecast: Forecast?) {
+    func updateWeatherView() {
         if let forecast = weatherForecast {
             let dayForecast = forecast.consolidatedWeather[self.day];
             
@@ -36,34 +70,10 @@ class DetailViewController: UIViewController {
             if let sweetImage = image {
                 sweetImage.image = ConditionsTypeImageProvider.getImage(abbr: dayForecast.conditionsAbbr)
             }
+            if let date = dayLabel { date.text = dayForecast.date }
             
-            if let table = tableView {
-                table.beginUpdates()
-                tableData.append("dupa")
-                table.insertRows(at: [IndexPath.init(row: self.tableData.count-1, section: 0)], with: .automatic)
-                table.endUpdates()
-
-                
-               
-            }
-//            self.townLabel =
-//
-//            let todayDate = Date()
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = Constants.todayDateFormat
-//            self.today.text = formatter.string(from: todayDate)
-//
-//            self.header.text = Constants.header  + unwrappedForecast.title + determineWeatherDay(selectedDayForecast: selectedDayForecast)
-//            self.conditionsType.text = selectedDayForecast.conditionsType;
-//            self.minTemp.text = String(format: Constants.detailedTempFormat, selectedDayForecast.minTemp)
-//            self.theTemp.text = String(format: Constants.simpleTempFormat, selectedDayForecast.theTemp)
-//            self.maxTemp.text = String(format: Constants.detailedTempFormat, selectedDayForecast.maxTemp)
-//            self.windSpeed.text = String(format: Constants.windSpeedFormat, selectedDayForecast.windSpeed)
-//            self.windDirection.text = selectedDayForecast.windDirection;
-//            self.precipitation.text = self.determinePrecipitation(conditions: selectedDayForecast.conditionsType)
-//            self.airPressure.text = String(format: Constants.pressureFormat, selectedDayForecast.airPressure)
-//            self.humidity.text = String(format: Constants.humidityFormat, selectedDayForecast.humidity)
-//            self.setConditionsImage(conditionsAbbreviation: selectedDayForecast.conditionsAbbr)
+            //refresh table view?
+            DispatchQueue.main.async { self.tableView.reloadData() }
         }
     }
 
@@ -72,6 +82,8 @@ class DetailViewController: UIViewController {
 
         // Do any additional setup after loading the view, typically from a nib.
         configureView()
+        self.tableView?.delegate = self
+        self.tableView?.dataSource = self
     }
 
     var weatherForecast: Forecast? {
@@ -79,6 +91,61 @@ class DetailViewController: UIViewController {
             // Update the view.
             configureView()
         }
+    }
+    
+    // TABLE VIEW
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 8 // your number of cell here
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "infoCell") {
+            if let selectedDayForecast = weatherForecast?.consolidatedWeather[day] {
+                createCellContents(cell: cell, row: indexPath.row, selectedDayForecast: selectedDayForecast)
+                return cell
+            }
+        }
+        return UITableViewCell();
+    }
+    
+    private func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+        // do nothing
+    }
+    
+    func createCellContents(cell: UITableViewCell, row: Int, selectedDayForecast: Weather) {
+        switch row {
+        case 0:
+            cell.textLabel?.text = Constants.conditionsLabel
+            cell.detailTextLabel?.text = selectedDayForecast.conditionsType
+        case 1:
+            cell.textLabel?.text = Constants.tempMinLabel
+            cell.detailTextLabel?.text = String(format: Constants.detailedTempFormat, selectedDayForecast.minTemp)
+        case 2:
+            cell.textLabel?.text = Constants.tempMaxLabel
+            cell.detailTextLabel?.text = String(format: Constants.detailedTempFormat, selectedDayForecast.maxTemp)
+        case 3:
+            cell.textLabel?.text = Constants.windSpeedLabel
+            cell.detailTextLabel?.text = String(format: Constants.windSpeedFormat, selectedDayForecast.windSpeed)
+        case 4:
+            cell.textLabel?.text = Constants.windDirectionLabel
+            cell.detailTextLabel?.text = selectedDayForecast.windDirection
+        case 5:
+            cell.textLabel?.text = Constants.precipitationLabel
+            cell.detailTextLabel?.text = self.determinePrecipitation(conditions: selectedDayForecast.conditionsType)
+        case 6:
+            cell.textLabel?.text = Constants.airPressureLabel
+            cell.detailTextLabel?.text = String(format: Constants.pressureFormat, selectedDayForecast.airPressure)
+        case 7:
+            cell.textLabel?.text = Constants.humidityLabel
+            cell.detailTextLabel?.text = String(format: Constants.humidityFormat, selectedDayForecast.humidity)
+        default:
+            ()
+        }
+    }
+    
+    func determinePrecipitation(conditions: String) -> String {
+        return Constants.percipitationConditions.contains(conditions) ? conditions : Constants.noData
     }
 }
 

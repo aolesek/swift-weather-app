@@ -47,4 +47,20 @@ class Constants {
     static var errorNotificationMessage = "An error occured: "
     
     static var errorNotificationButton = "OK"
+    
+    static var conditionsLabel = "Conditions"
+    
+    static var tempMinLabel = "Min temperature"
+    
+    static var tempMaxLabel = "Max temperature"
+
+    static var windSpeedLabel = "Wind speed"
+
+    static var windDirectionLabel = "Wind direction"
+
+    static var precipitationLabel = "Precipitation"
+
+    static var airPressureLabel = "Air pressure"
+
+    static var humidityLabel = "Humidity"
 }

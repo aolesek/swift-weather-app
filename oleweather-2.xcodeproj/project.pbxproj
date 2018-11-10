@@ -14,6 +14,11 @@
 		37F96846219392B10034E279 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37F96845219392B10034E279 /* Assets.xcassets */; };
 		37F96849219392B10034E279 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37F96847219392B10034E279 /* LaunchScreen.storyboard */; };
 		37F96854219392B20034E279 /* oleweather_2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F96853219392B20034E279 /* oleweather_2Tests.swift */; };
+		37F9685F21939BF60034E279 /* ConditionsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9685E21939BF60034E279 /* ConditionsType.swift */; };
+		37F999A52196F83B009FFBEB /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F999A42196F83B009FFBEB /* Weather.swift */; };
+		37F999A72196FCA3009FFBEB /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F999A62196FCA3009FFBEB /* Forecast.swift */; };
+		37FCB3A921942F6A00B06FB4 /* TownTableCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */; };
+		37FCB3AB2194353900B06FB4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FCB3AA2194353900B06FB4 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +43,11 @@
 		37F9684F219392B10034E279 /* oleweather-2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "oleweather-2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F96853219392B20034E279 /* oleweather_2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = oleweather_2Tests.swift; sourceTree = "<group>"; };
 		37F96855219392B20034E279 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		37F9685E21939BF60034E279 /* ConditionsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsType.swift; sourceTree = "<group>"; };
+		37F999A42196F83B009FFBEB /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		37F999A62196FCA3009FFBEB /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownTableCellTableViewCell.swift; sourceTree = "<group>"; };
+		37FCB3AA2194353900B06FB4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,10 +92,15 @@
 				37F9683C219392B00034E279 /* AppDelegate.swift */,
 				37F9683E219392B00034E279 /* MasterViewController.swift */,
 				37F96840219392B00034E279 /* DetailViewController.swift */,
-				37F96842219392B00034E279 /* Main.storyboard */,
 				37F96845219392B10034E279 /* Assets.xcassets */,
+				37F96842219392B00034E279 /* Main.storyboard */,
 				37F96847219392B10034E279 /* LaunchScreen.storyboard */,
 				37F9684A219392B10034E279 /* Info.plist */,
+				37F9685E21939BF60034E279 /* ConditionsType.swift */,
+				37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */,
+				37FCB3AA2194353900B06FB4 /* Constants.swift */,
+				37F999A42196F83B009FFBEB /* Weather.swift */,
+				37F999A62196FCA3009FFBEB /* Forecast.swift */,
 			);
 			path = "oleweather-2";
 			sourceTree = "<group>";
@@ -200,9 +215,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37F999A72196FCA3009FFBEB /* Forecast.swift in Sources */,
 				37F96841219392B00034E279 /* DetailViewController.swift in Sources */,
+				37FCB3A921942F6A00B06FB4 /* TownTableCellTableViewCell.swift in Sources */,
+				37F9685F21939BF60034E279 /* ConditionsType.swift in Sources */,
 				37F9683F219392B00034E279 /* MasterViewController.swift in Sources */,
 				37F9683D219392B00034E279 /* AppDelegate.swift in Sources */,
+				37FCB3AB2194353900B06FB4 /* Constants.swift in Sources */,
+				37F999A52196F83B009FFBEB /* Weather.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

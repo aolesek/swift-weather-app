@@ -55,9 +55,10 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Update the user interface for the detail item.
         updateWeatherView()
         
-        if self.weatherForecast?.consolidatedWeather.count > 1 {
-            self.nextButton.isEnabled = true;
-
+        if self.weatherForecast?.consolidatedWeather.count ?? 0 > 1 {
+            DispatchQueue.main.async {
+                self.nextButton.isEnabled = true;
+            }
         }
     }
     

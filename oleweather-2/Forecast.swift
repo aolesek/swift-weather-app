@@ -22,9 +22,4 @@ struct Forecast: Codable{
         decoder.dateDecodingStrategy = .deferredToDate
         self = try decoder.decode(Forecast.self, from: data)
     }
-    
-    init(title: String, consolidatedWeather: [Weather]) {
-        self.title = title
-        self.consolidatedWeather = consolidatedWeather
-    }
 }

@@ -36,18 +36,5 @@ struct Weather: Codable {
     init(data: Data) throws {
         let decoder = JSONDecoder()
         self = try decoder.decode(Weather.self, from: data)
-    }
-    
-    init (conditionsType: String, conditionsAbbr: String, minTemp: Float, theTemp: Float, maxTemp: Float, windSpeed: Float, windDirection: String, airPressure: Float, humidity: Int, date: String) {
-        self.conditionsType = conditionsType
-        self.conditionsAbbr = conditionsAbbr
-        self.minTemp = minTemp
-        self.theTemp = theTemp
-        self.maxTemp = maxTemp
-        self.windSpeed = windSpeed
-        self.windDirection = windDirection
-        self.airPressure = airPressure
-        self.humidity = humidity
-        self.date = date
-    }
+    } 
 }

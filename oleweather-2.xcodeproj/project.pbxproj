@@ -17,6 +17,7 @@
 		37F9685F21939BF60034E279 /* ConditionsType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9685E21939BF60034E279 /* ConditionsType.swift */; };
 		37F999A52196F83B009FFBEB /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F999A42196F83B009FFBEB /* Weather.swift */; };
 		37F999A72196FCA3009FFBEB /* Forecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F999A62196FCA3009FFBEB /* Forecast.swift */; };
+		37F999A9219772F5009FFBEB /* MetaWeatherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F999A8219772F5009FFBEB /* MetaWeatherApi.swift */; };
 		37FCB3A921942F6A00B06FB4 /* TownTableCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */; };
 		37FCB3AB2194353900B06FB4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FCB3AA2194353900B06FB4 /* Constants.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		37F9685E21939BF60034E279 /* ConditionsType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsType.swift; sourceTree = "<group>"; };
 		37F999A42196F83B009FFBEB /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		37F999A62196FCA3009FFBEB /* Forecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Forecast.swift; sourceTree = "<group>"; };
+		37F999A8219772F5009FFBEB /* MetaWeatherApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaWeatherApi.swift; sourceTree = "<group>"; };
 		37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownTableCellTableViewCell.swift; sourceTree = "<group>"; };
 		37FCB3AA2194353900B06FB4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +103,7 @@
 				37FCB3AA2194353900B06FB4 /* Constants.swift */,
 				37F999A42196F83B009FFBEB /* Weather.swift */,
 				37F999A62196FCA3009FFBEB /* Forecast.swift */,
+				37F999A8219772F5009FFBEB /* MetaWeatherApi.swift */,
 			);
 			path = "oleweather-2";
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				37FCB3A921942F6A00B06FB4 /* TownTableCellTableViewCell.swift in Sources */,
 				37F9685F21939BF60034E279 /* ConditionsType.swift in Sources */,
 				37F9683F219392B00034E279 /* MasterViewController.swift in Sources */,
+				37F999A9219772F5009FFBEB /* MetaWeatherApi.swift in Sources */,
 				37F9683D219392B00034E279 /* AppDelegate.swift in Sources */,
 				37FCB3AB2194353900B06FB4 /* Constants.swift in Sources */,
 				37F999A52196F83B009FFBEB /* Weather.swift in Sources */,

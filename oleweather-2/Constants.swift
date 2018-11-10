@@ -9,10 +9,6 @@
 import Foundation
 
 class Constants {
-    static let weatherUnitStringRepresentation = " °C"
-    
-    
-    static var apiURL = "https://www.metaweather.com/api/location/44418/"
     
     static var todayDateFormat = "dd.MM.yyyy"
     
@@ -44,7 +40,7 @@ class Constants {
     
     static var errorNotificationTitle = "Error"
     
-    static var errorNotificationMessage = "An error occured: "
+    static var errorNotificationMessage = "An error occured"
     
     static var errorNotificationButton = "OK"
     

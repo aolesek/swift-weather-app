@@ -12,10 +12,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var day: Int = 0;
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
-
     @IBOutlet weak var townLabel: UILabel!
-    @IBOutlet weak var tempLabel: NSLayoutConstraint!
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -49,8 +46,6 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         updateWeatherView()
     }
     
-
-    
     func configureView() {
         // Update the user interface for the detail item.
         updateWeatherView()
@@ -63,18 +58,17 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func updateWeatherView() {
-        if let forecast = weatherForecast {
-            let dayForecast = forecast.consolidatedWeather[self.day];
-            
-            if let town = townLabel { town.text = forecast.title }
-            if let temp = temperatureLabel { temp.text = String(format: Constants.simpleTempFormat, dayForecast.theTemp) }
-            if let sweetImage = image {
-                sweetImage.image = ConditionsTypeImageProvider.getImage(abbr: dayForecast.conditionsAbbr)
+        DispatchQueue.main.async {
+            if let forecast = self.weatherForecast {
+                let dayForecast = forecast.consolidatedWeather[self.day]
+                if let town = self.townLabel { town.text = forecast.title }
+                if let temp = self.temperatureLabel { temp.text = String(format: Constants.simpleTempFormat, dayForecast.theTemp) }
+                if let sweetImage = self.image {
+                    sweetImage.image = ConditionsTypeImageProvider.getImage(abbr: dayForecast.conditionsAbbr)
+                }
+                if let date = self.dayLabel { date.text = dayForecast.date }
+                self.tableView.reloadData();
             }
-            if let date = dayLabel { date.text = dayForecast.date }
-            
-            //refresh table view?
-            DispatchQueue.main.async { self.tableView.reloadData() }
         }
     }
 
@@ -95,9 +89,8 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     // TABLE VIEW
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8 // your number of cell here
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

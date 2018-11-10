@@ -12,32 +12,50 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     
-    var townDescriptors = [1047372, 28743736, 2471217, 523920, 44418, 638242]
+    var townDescriptors = ["1047372", "28743736", "2471217"]
     
-    var forecasts = [
-        Forecast(title: "Denpasar", consolidatedWeather:
-            [
-                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "10-12-2018"),
-                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "11-12-2018"),
-                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "12-12-2018"),
-                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "13-12-2018"),
-                Weather(conditionsType: "Snow", conditionsAbbr: "h", minTemp: 10.10, theTemp: 10, maxTemp: 10.1010, windSpeed: 10, windDirection: "NNE", airPressure: 1010.10, humidity: 10, date: "14-12-2018")
-            ]),
-        Forecast(title: "London", consolidatedWeather: [Weather(conditionsType: "Rain", conditionsAbbr: "sn", minTemp: 20.3, theTemp: 20, maxTemp: 20.3, windSpeed: 20.2, windDirection: "NNE", airPressure: 2020.7, humidity: 20, date: "11-12-2018")]),
-        Forecast(title: "Los Angeles", consolidatedWeather: [Weather(conditionsType: "Sleet", conditionsAbbr: "c", minTemp: 35.3, theTemp: 35, maxTemp: 35.3, windSpeed: 35.2, windDirection: "NNE", airPressure: 3535.7, humidity: 35, date: "11-12-2018")])
-    ]
-
+    var forecasts: [Forecast] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        navigationItem.leftBarButtonItem = editButtonItem
 
+        navigationItem.leftBarButtonItem = editButtonItem
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         navigationItem.rightBarButtonItem = addButton
         if let split = splitViewController {
             let controllers = split.viewControllers
             detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
+        }
+        fetchWeatherData()
+    }
+    
+    func fetchWeatherData() {
+        let api = MetaWeatherApi()
+        townDescriptors.forEach { descriptor in
+            api.getWeather(descriptor: descriptor,
+                           onComplete: { (forecast) -> (Void) in
+                            NSLog("Forecast for " + descriptor + " fetched")
+                            self.forecasts.append(forecast)
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+            },
+                           onError: { (error) in
+                            self.handleError(error: error)
+            })
+        }
+    }
+    
+    func handleError(error: Error) {
+      // NSLog("an error occured: \(error)")
+        showErrorAlert(error: error)
+    }
+    
+    func showErrorAlert(error: Error) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: Constants.errorNotificationTitle, message: Constants.errorNotificationMessage , preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: Constants.errorNotificationButton, style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 
@@ -45,7 +63,7 @@ class MasterViewController: UITableViewController {
         clearsSelectionOnViewWillAppear = splitViewController!.isCollapsed
         super.viewWillAppear(animated)
     }
-
+    
     @objc
     func insertNewObject(_ sender: Any) {
 //        objects.insert(NSDate(), at: 0)
@@ -100,13 +118,11 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            objects.remove(at: indexPath.row)
-//            tableView.deleteRows(at: [indexPath], with: .fade)
+            forecasts.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
-
-
 }
 

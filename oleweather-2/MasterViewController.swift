@@ -12,7 +12,7 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     
-    var townDescriptors = ["1047372", "28743736", "455825"]
+    var townDescriptors = Constants.initialTownDescriptors
     
     var forecasts: [(Forecast, String)] = []
     
@@ -32,8 +32,6 @@ class MasterViewController: UITableViewController {
     func fetchWeatherData() {
         self.forecasts.removeAll()
         let api = MetaWeatherApi()
-        print("Fetching weather for ")
-        print(townDescriptors)
         townDescriptors.forEach { descriptor in
             api.getWeather(descriptor: descriptor,
                            onComplete: { (forecast) -> (Void) in

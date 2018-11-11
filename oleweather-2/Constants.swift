@@ -10,9 +10,7 @@ import Foundation
 
 class Constants {
     
-    static var todayDateFormat = "dd.MM.yyyy"
-    
-    static var header = "Weather in "
+    static var initialTownDescriptors = ["1047372", "28743736", "455825"]
     
     static var detailedTempFormat = "%.1f °C"
     
@@ -24,19 +22,9 @@ class Constants {
     
     static var humidityFormat = "%d %%"
     
-    static var today = " today"
-    
-    static var tomorrow =  " tomorrow"
-    
-    static var beforeDate = " on "
-    
     static var percipitationConditions = ["Snow", "Sleet", "Hail", "Heavy Rain", "Light Rain", "Showers"]
     
     static var noData = " - "
-    
-    static var imageURL = "https://www.metaweather.com/static/img/weather/png/"
-    
-    static var imageExt = ".png"
     
     static var errorNotificationTitle = "Error"
     

@@ -81,7 +81,6 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view, typically from a nib.
         configureView()
         self.tableView?.delegate = self
         self.tableView?.dataSource = self

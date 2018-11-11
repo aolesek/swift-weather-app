@@ -55,15 +55,6 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         super.viewDidLoad()
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
-
-//        delegate?.townDescriptors.append("2471217")
-//
-//        DispatchQueue.main.async {
-//            self.delegate?.fetchWeatherData()
-//            self.dismiss(animated: true, completion: nil)
-//        }
-
-        // Do any additional setup after loading the view.
     }
     
     // TABLE VIEW

@@ -16,7 +16,7 @@ class MetaWeatherApi {
     
     static var SEARCH_ENDPOINT = "/location/search/?query="
     
-    func getWeather(descriptor: String, onComplete: @escaping (Forecast) -> (Void), onError: @escaping (Error) -> ()) {
+    func getWeather(descriptor: String, onComplete: @escaping (Forecast) -> (Void), onError: @escaping (Error) -> (Void)) {
         let url = URL(string: MetaWeatherApi.API_LOCATION + MetaWeatherApi.FORECAST_ENDPOINT + descriptor)
         let session = URLSession.shared
         
@@ -44,7 +44,8 @@ class MetaWeatherApi {
         
         let simple = phrase.folding(options: [.diacriticInsensitive, .widthInsensitive, .caseInsensitive], locale: nil)
         let nonAlphaNumeric = CharacterSet.alphanumerics.inverted
-        let fixedPhrase = simple.components(separatedBy: nonAlphaNumeric).joined(separator: "").replacingOccurrences(of: "ł", with: "l")        
+        // .diacriticInsensitive does not work for Łł
+        let fixedPhrase = simple.components(separatedBy: nonAlphaNumeric).joined(separator: "").replacingOccurrences(of: "ł", with: "l")
         
         let url = URL(string: MetaWeatherApi.API_LOCATION + MetaWeatherApi.SEARCH_ENDPOINT + fixedPhrase)
         let session = URLSession.shared

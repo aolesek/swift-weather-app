@@ -12,10 +12,10 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
     
-    var townDescriptors = ["1047372", "28743736", "2471217"]
+    var townDescriptors = ["1047372", "28743736", "455825"]
     
-    var forecasts: [Forecast] = []
-
+    var forecasts: [(Forecast, String)] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,12 +30,15 @@ class MasterViewController: UITableViewController {
     }
     
     func fetchWeatherData() {
+        self.forecasts.removeAll()
         let api = MetaWeatherApi()
+        print("Fetching weather for ")
+        print(townDescriptors)
         townDescriptors.forEach { descriptor in
             api.getWeather(descriptor: descriptor,
                            onComplete: { (forecast) -> (Void) in
                             NSLog("Forecast for " + descriptor + " fetched")
-                            self.forecasts.append(forecast)
+                            self.forecasts.append((forecast, descriptor))
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
@@ -44,10 +47,12 @@ class MasterViewController: UITableViewController {
                             self.handleError(error: error)
             })
         }
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
     func handleError(error: Error) {
-      // NSLog("an error occured: \(error)")
         showErrorAlert(error: error)
     }
     
@@ -66,9 +71,7 @@ class MasterViewController: UITableViewController {
     
     @objc
     func insertNewObject(_ sender: Any) {
-//        objects.insert(NSDate(), at: 0)
-//        let indexPath = IndexPath(row: 0, section: 0)
-//        tableView.insertRows(at: [indexPath], with: .automatic)
+        performSegue(withIdentifier: "addTownSegue", sender: self)
     }
 
     // MARK: - Segues
@@ -78,10 +81,14 @@ class MasterViewController: UITableViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let weatherForecast = forecasts[indexPath.row]
                 let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                controller.weatherForecast = weatherForecast
+                controller.weatherForecast = weatherForecast.0
                 controller.navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
                 controller.navigationItem.leftItemsSupplementBackButton = true
             }
+        } else if segue.identifier == "addTownSegue" {
+            let controller : AddViewController = segue.destination as! AddViewController
+            controller.delegate = self
+            
         }
     }
 
@@ -97,7 +104,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let forecast = forecasts[indexPath.row]
-        let todaysForecast = forecast.consolidatedWeather[0]
+        let todaysForecast = forecast.0.consolidatedWeather[0]
         let todaysTemp = todaysForecast.theTemp
         let conditionsType = ConditionsType.init(rawValue: todaysForecast.conditionsAbbr)
         let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell") as! TownTableCellTableViewCell
@@ -106,7 +113,7 @@ class MasterViewController: UITableViewController {
             let imageProvider = ConditionsTypeImageProvider(typeEnum: type)
             cell.imagee?.image = imageProvider.weatherImage
         }
-        cell.towne.text = forecast.title
+        cell.towne.text = forecast.0.title
         cell.temperaturee.text = String(format: Constants.simpleTempFormat, todaysTemp)
         return cell
     }
@@ -118,6 +125,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            townDescriptors.removeAll(where: { (desc) in desc == forecasts[indexPath.row].1})
             forecasts.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {

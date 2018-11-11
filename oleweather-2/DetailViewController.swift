@@ -19,6 +19,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var prevButton: UIButton!
+    @IBOutlet weak var detailTitle: UINavigationItem!
     
     //MARK: Actions
     @IBAction func onPrevious(_ sender: Any) {
@@ -61,7 +62,12 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         DispatchQueue.main.async {
             if let forecast = self.weatherForecast {
                 let dayForecast = forecast.consolidatedWeather[self.day]
-                if let town = self.townLabel { town.text = forecast.title }
+                if let town = self.townLabel {
+                    town.text = forecast.title
+                }
+                if let detail = self.detailTitle {
+                    detail.title = forecast.title
+                }
                 if let temp = self.temperatureLabel { temp.text = String(format: Constants.simpleTempFormat, dayForecast.theTemp) }
                 if let sweetImage = self.image {
                     sweetImage.image = ConditionsTypeImageProvider.getImage(abbr: dayForecast.conditionsAbbr)

@@ -47,4 +47,8 @@ class Constants {
     static var airPressureLabel = "Air pressure"
 
     static var humidityLabel = "Humidity"
+    
+    static var currentLocation = "Nearest available location"
+    
+    static var locationThreshold: Float = 0.005
 }

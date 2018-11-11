@@ -16,6 +16,8 @@ class MetaWeatherApi {
     
     static var SEARCH_ENDPOINT = "/location/search/?query="
     
+    static var LATLON_SEARCH_ENDPOINT = "/location/search/?lattlong="
+    
     func getWeather(descriptor: String, onComplete: @escaping (Forecast) -> (Void), onError: @escaping (Error) -> (Void)) {
         let url = URL(string: MetaWeatherApi.API_LOCATION + MetaWeatherApi.FORECAST_ENDPOINT + descriptor)
         let session = URLSession.shared
@@ -49,6 +51,23 @@ class MetaWeatherApi {
         
         let url = URL(string: MetaWeatherApi.API_LOCATION + MetaWeatherApi.SEARCH_ENDPOINT + fixedPhrase)
         let session = URLSession.shared
+        
+        let task = session.dataTask(with: url!) { (data, urlresponse, error) in
+            do {
+                let results = try self.deserializeSearchData(data: data)
+                onComplete(results)
+            } catch {
+                onError(error)
+            }
+        }
+        task.resume()
+    }
+    
+    func getLocations(lat: Float, lon: Float, onComplete: @escaping (SearchResults) -> (Void), onError: @escaping (Error) -> ()) {
+        let latLon = "\(lat),\(lon)"
+        let url = URL(string: MetaWeatherApi.API_LOCATION + MetaWeatherApi.LATLON_SEARCH_ENDPOINT + latLon)
+        let session = URLSession.shared
+        print(latLon)
         
         let task = session.dataTask(with: url!) { (data, urlresponse, error) in
             do {

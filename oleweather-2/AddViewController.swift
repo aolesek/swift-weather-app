@@ -26,17 +26,19 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         phraseTextField.endEditing(true)
         let api = MetaWeatherApi()
         if let phrase = phraseTextField?.text {
-            api.getLocations(phrase: phrase,
-                onComplete: { (results) -> (Void) in
-                    NSLog("Results for " + phrase + " fetched")
-                    self.results = results
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-            },
-                onError: { (error) in
-                    self.handleError(error: error)
-            })
+            if !phrase.isEmpty {
+                api.getLocations(phrase: phrase,
+                    onComplete: { (results) -> (Void) in
+                        NSLog("Results for " + phrase + " fetched")
+                        self.results = results
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                },
+                    onError: { (error) in
+                        self.handleError(error: error)
+                })
+            }
         }
     }
     

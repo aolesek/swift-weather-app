@@ -51,4 +51,10 @@ class Constants {
     static var currentLocation = "Nearest available location"
     
     static var locationThreshold: Float = 0.005
+    
+    static var currentLocationLabel = "Your current location is "
+    
+    static var dataNotFetchedYet = "Data is not available yet"
+    
+    static var locationUnavailable = "Current location is unavailable, select one of nearest locations"
 }

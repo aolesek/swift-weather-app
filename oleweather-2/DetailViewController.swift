@@ -21,6 +21,10 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var prevButton: UIButton!
     @IBOutlet weak var detailTitle: UINavigationItem!
     
+    @IBAction func onShowMap(_ sender: Any) {
+        performSegue(withIdentifier: "showMapSegue", sender: self)
+    }
+    
     //MARK: Actions
     @IBAction func onPrevious(_ sender: Any) {
         if self.day > 0 {
@@ -90,6 +94,15 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         didSet {
             // Update the view.
             configureView()
+        }
+    }
+    
+    // MARK: - Segues
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showMapSegue" {
+            let controller = segue.destination as! MapViewController
+            controller.townName = self.townLabel.text
         }
     }
     

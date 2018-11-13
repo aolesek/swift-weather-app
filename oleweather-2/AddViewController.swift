@@ -18,18 +18,17 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var locationManager: CLLocationManager?
     
-    var locationTableCell: UITableViewCell?
-    
-    var locationCellResult: SearchResult?
-    
     var coordinates: (Float,Float)?
     
     let api = MetaWeatherApi()
     
+    @IBOutlet weak var currentLocationLabel: UILabel!
     
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var phraseTextField: UITextField!
+    
+    @IBOutlet weak var nearestButton: UIButton!
     
     @IBAction func onCancel(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -54,8 +53,59 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
+    @IBAction func onNearest(_ sender: Any) {
+        if let coords = self.coordinates {
+            api.getLocations(lat: coords.0, lon: coords.1,
+                             onComplete: { (results) -> (Void) in
+                                NSLog("Nearest location for  \(coords.0) \(coords.1) fetched")
+                                self.results = results
+                                DispatchQueue.main.async {
+                                    self.tableView.reloadData()
+                                }
+                                self.fetchCurrentLocationIfAvailable()
+            },
+                             onError: { (error) in
+                                self.handleError(error: error)
+            })
+        }
+    }
+    
+    func fetchCurrentLocationIfAvailable(){
+        guard let result = self.results else {
+            return
+        }
+        
+        guard let first = result.entries.first else {
+            return
+        }
+        
+        let locationService = LocationService.shared
+        locationService.location = self.locationManager?.location!
+        
+        locationService.getTown(completion: {result, error in
+            if let res = result {
+                if res.localizedCaseInsensitiveCompare(first.title) == .orderedSame {
+                    let woeid = String(first.woeid)
+                    self.addWoeidAndGoBackToMaster(woeid)
+                } else {
+                    let alert = UIAlertController(title: nil, message: Constants.locationUnavailable, preferredStyle: .alert)
+                    self.present(alert, animated: true)
+                    
+                    let duration: Double = 3
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+                        alert.dismiss(animated: true)
+                    }
+                }
+            }
+            if let err = error {
+                self.handleError(error: err)
+            }
+        })
+    }
+    
     func handleError(error: Error) {
         showErrorAlert(error: error)
+        NSLog(error.localizedDescription)
     }
     
     func showErrorAlert(error: Error) {
@@ -71,6 +121,7 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         self.tableView?.dataSource = self
         self.tableView.reloadData()
         self.initLocationManager()
+        self.nearestButton?.isEnabled = false
     }
     
     func initLocationManager() {
@@ -85,55 +136,35 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         let lat = Float(locValue.latitude)
         let lon = Float(locValue.longitude)
-        if locationChanged(lat: lat, lon: lon) {
-            self.coordinates = (lat, lon)
-            api.getLocations(lat: Float(locValue.latitude), lon:Float(locValue.longitude),
-                             onComplete: { (results) -> (Void) in
-                                NSLog("Nearest location for  \(locValue.latitude) \(locValue.longitude) fetched")
-                                if !results.entries.isEmpty {
-                                    self.locationCellResult = results.entries[0]
-                                    DispatchQueue.main.async {
-                                        self.locationTableCell?.textLabel?.text = Constants.currentLocation + ": " + (self.locationCellResult?.title)!
-                                        self.locationTableCell?.isUserInteractionEnabled = true
-                                    }
-                                }
-                            },
-                            onError: { (error) in
-                                self.handleError(error: error)
-                            })
-            if let cell = locationTableCell {
-                cell.isUserInteractionEnabled = true
-                cell.textLabel?.text = Constants.currentLocation
+        self.coordinates = (lat,lon)
+        let locationService = LocationService.shared
+        locationService.location = manager.location!
+        locationService.getTownAndCountry{ location, error in
+            if let loc = location {
+                self.currentLocationLabel.text = Constants.currentLocationLabel + loc
+            }
+            if let err = error {
+                self.handleError(error: err)
             }
         }
-    }
-    
-    func locationChanged(lat: Float, lon: Float) -> Bool {
-        if let coords = self.coordinates {
-            return (coords.0 - lat).magnitude > Constants.locationThreshold || ((coords.1) - lon).magnitude > Constants.locationThreshold
+        
+        if (self.nearestButton.isEnabled == false) {
+            self.nearestButton.isEnabled = true
         }
-        return true
     }
     
     // TABLE VIEW
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let numberOfEntries = results?.entries.count ?? 0
-        return numberOfEntries + 1
+        return numberOfEntries
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "foundCell") {
             let row = indexPath.row
-            if row == 0 {
-                cell.textLabel?.text = Constants.currentLocation
-                cell.isUserInteractionEnabled = false
-                self.locationTableCell = cell
+            if let unwrappedResults = results {
+                cell.textLabel?.text = unwrappedResults.entries[row].title
                 return cell
-            } else {
-                if let unwrappedResults = results {
-                    cell.textLabel?.text = unwrappedResults.entries[row - 1].title
-                    return cell
-                }
             }
         }
         return UITableViewCell();
@@ -141,22 +172,17 @@ class AddViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let row = indexPath.row
-        if row == 0 {
-            if let location = locationCellResult {
-                let woeid = String(location.woeid)
-                delegate?.townDescriptors.append(woeid)
-                DispatchQueue.main.async {
-                    self.delegate?.fetchWeatherData()
-                    self.dismiss(animated: true, completion: nil)
-                }
-            }
-        } else if let unwrappedResults = results {
-            let woeid = String(unwrappedResults.entries[row - 1].woeid)
-            delegate?.townDescriptors.append(woeid)
-            DispatchQueue.main.async {
-                self.delegate?.fetchWeatherData()
-                self.dismiss(animated: true, completion: nil)
-            }
+        if let unwrappedResults = results {
+            let woeid = String(unwrappedResults.entries[row].woeid)
+            addWoeidAndGoBackToMaster(woeid)
+        }
+    }
+    
+    func addWoeidAndGoBackToMaster(_ woeid: String) {
+        delegate?.townDescriptors.append(woeid)
+        DispatchQueue.main.async {
+            self.delegate?.fetchWeatherData()
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }

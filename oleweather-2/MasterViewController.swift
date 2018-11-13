@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension Collection where Indices.Iterator.Element == Index {
+    subscript (safe index: Index) -> Iterator.Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController? = nil
@@ -101,11 +107,14 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let forecast = forecasts[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell") as! TownTableCellTableViewCell
+        guard let forecast = forecasts[safe: indexPath.row] else {
+            cell.towne.text = Constants.dataNotFetchedYet
+            return cell
+        }
         let todaysForecast = forecast.0.consolidatedWeather[0]
         let todaysTemp = todaysForecast.theTemp
         let conditionsType = ConditionsType.init(rawValue: todaysForecast.conditionsAbbr)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "weatherCell") as! TownTableCellTableViewCell
 
         if let type = conditionsType {
             let imageProvider = ConditionsTypeImageProvider(typeEnum: type)

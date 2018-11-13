@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		377B9B162198D50900EF407E /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377B9B152198D50900EF407E /* LocationService.swift */; };
 		37F9683D219392B00034E279 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9683C219392B00034E279 /* AppDelegate.swift */; };
 		37F9683F219392B00034E279 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9683E219392B00034E279 /* MasterViewController.swift */; };
 		37F96841219392B00034E279 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F96840219392B00034E279 /* DetailViewController.swift */; };
@@ -23,6 +24,7 @@
 		37F999AF2197AD52009FFBEB /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F999AE2197AD52009FFBEB /* SearchResult.swift */; };
 		37FCB3A921942F6A00B06FB4 /* TownTableCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */; };
 		37FCB3AB2194353900B06FB4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FCB3AA2194353900B06FB4 /* Constants.swift */; };
+		37FE3E4F219A3D53007BCFA5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FE3E4E219A3D53007BCFA5 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		377B9B152198D50900EF407E /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		37F96839219392B00034E279 /* oleweather-2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "oleweather-2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37F9683C219392B00034E279 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37F9683E219392B00034E279 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 		37F999AE2197AD52009FFBEB /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		37FCB3A821942F6A00B06FB4 /* TownTableCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TownTableCellTableViewCell.swift; sourceTree = "<group>"; };
 		37FCB3AA2194353900B06FB4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		37FE3E4E219A3D53007BCFA5 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,8 @@
 				37F999AA21979721009FFBEB /* AddViewController.swift */,
 				37F999AC2197ACC6009FFBEB /* SearchResults.swift */,
 				37F999AE2197AD52009FFBEB /* SearchResult.swift */,
+				377B9B152198D50900EF407E /* LocationService.swift */,
+				37FE3E4E219A3D53007BCFA5 /* MapViewController.swift */,
 			);
 			path = "oleweather-2";
 			sourceTree = "<group>";
@@ -236,9 +242,11 @@
 				37F9683F219392B00034E279 /* MasterViewController.swift in Sources */,
 				37F999A9219772F5009FFBEB /* MetaWeatherApi.swift in Sources */,
 				37F9683D219392B00034E279 /* AppDelegate.swift in Sources */,
+				377B9B162198D50900EF407E /* LocationService.swift in Sources */,
 				37FCB3AB2194353900B06FB4 /* Constants.swift in Sources */,
 				37F999AF2197AD52009FFBEB /* SearchResult.swift in Sources */,
 				37F999A52196F83B009FFBEB /* Weather.swift in Sources */,
+				37FE3E4F219A3D53007BCFA5 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
